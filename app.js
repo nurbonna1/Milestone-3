@@ -26,3 +26,6 @@ global.db = mysql.createConnection({
 app.use('/auth', require('./routes/auth'));
 
 app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+
+
+app.use('/admin', require('./routes/admin'));
