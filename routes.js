@@ -60,3 +60,26 @@ router.post('/profile', (req, res) => {
 });
 
 module.exports = router;
+
+
+
+router.post('/profile', async (req, res) => {
+  const { password, address, profile_picture } = req.body;
+  const username = req.session.user.username;
+
+  if (password) {
+    const hashed = await bcrypt.hash(password, 10);
+    db.query('UPDATE Users SET password = ?, address = ?, profile_picture = ? WHERE username = ?', 
+      [hashed, address, profile_picture, username], (err) => {
+      if (err) return res.send('Database error.');
+      res.redirect('/auth/profile');
+    });
+  } else {
+    db.query('UPDATE Users SET address = ?, profile_picture = ? WHERE username = ?', 
+      [address, profile_picture, username], (err) => {
+      if (err) return res.send('Database error.');
+      res.redirect('/auth/profile');
+    });
+  }
+});
+
