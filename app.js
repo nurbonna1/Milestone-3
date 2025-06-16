@@ -29,3 +29,11 @@ app.listen(3000, () => console.log("Server running on http://localhost:3000"));
 
 
 app.use('/admin', require('./routes/admin'));
+
+
+app.use(session({
+  secret: 'super_secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 }  // 1 hour session expiry
+}));
